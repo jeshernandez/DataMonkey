@@ -1,32 +1,33 @@
-﻿
-using System;
-using System.Collections.Generic;
+﻿using System;
+using System.Configuration;
 
 namespace DataMonkey
 {
     class Program
     {
+        static string[] appConfigValues = new string[3];
         static void Main(string[] args)
         {
-            DBLogController dBLog = new DBLogController();
+            getAppConfig();
 
-            List<DBLogModel> lstDbLogs = dBLog.GetDBLog("1");
-
-            if(lstDbLogs.Count == 0)
-            {
-                //Console.WriteLine("No rows found.");
-            }
-            lstDbLogs.ForEach(el =>
-            Console.WriteLine("LOGID: " + el.LogID + " EventType: " + el.EventType)
-            );
-
-            SSHConn sshConn = new SSHConn();
-            sshConn.listFiles(); 
+            SshAbcFileController sshABCFileController = new SshAbcFileController();
+            sshABCFileController.initTransfer(appConfigValues); 
 
 
             Console.WriteLine("App Complete!");
             Console.ReadLine(); 
 
         }
-    }
+
+
+        private static void getAppConfig()
+        {
+            var appSettings = ConfigurationManager.AppSettings;
+            appConfigValues[0] = appSettings[0];
+            appConfigValues[1] = appSettings[1];
+            appConfigValues[2] = appSettings[2]; 
+        }
+
+
+    } // End Program Class
 }

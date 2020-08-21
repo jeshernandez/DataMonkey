@@ -6,46 +6,29 @@ namespace DataMonkey
 {
     class SSHConn
     {
-        string SFTP_HST = "192.168.1.1";
-        int SFTP_PRT = 22; 
-        string SFTP_USR = "futcomker";
-        string SFTP_PWD = "Suxel32#";
 
-        public void listFiles()
-        {
+        public SshClient getSSHClientConn(string host, string user, string pwd) {
 
-            var connectionInfo = new KeyboardInteractiveConnectionInfo(SFTP_HST, SFTP_USR);
+            var connectionInfo = new KeyboardInteractiveConnectionInfo(host, user);
             connectionInfo.AuthenticationPrompt += delegate (object sender, AuthenticationPromptEventArgs e)
             {
                 foreach (var prompt in e.Prompts)
-                    prompt.Response = SFTP_PWD;
+                    prompt.Response = pwd;
             };
-            //ConnectionInfo connectionInfo = new ConnectionInfo(SFTP_HST, SFTP_PRT, SFTP_USR, pauth, kauth);
 
-            SshClient client = new SshClient(connectionInfo);
-            client.Connect();
+            return new SshClient(connectionInfo);
+        }
 
-            var cmd = client.CreateCommand("mkdir remoteCreation");
+        public int sendSSHCommand(SshClient client, string command)
+        {
+            var cmd = client.CreateCommand(command);
             cmd.Execute();
             Console.WriteLine("Command>" + cmd.CommandText);
-            Console.WriteLine("Return Value = {0}", cmd.ExitStatus);
 
-            Console.WriteLine("SSH Connected? " + client.IsConnected);
-
-            client.Disconnect(); 
-
+            return cmd.ExitStatus; 
         }
+  
 
-        private void HandleKeyEvent(object sender, AuthenticationPromptEventArgs e)
-        {
-            foreach (AuthenticationPrompt prompt in e.Prompts)
-            {
-                if (prompt.Request.IndexOf("Password:", StringComparison.InvariantCultureIgnoreCase) != -1)
-                {
-                    prompt.Response = SFTP_PWD;
-                }
-            }
-        }
 
     }
 }

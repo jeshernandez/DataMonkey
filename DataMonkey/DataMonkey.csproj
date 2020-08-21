@@ -60,6 +60,7 @@
     <Compile Include="OracleDatabase.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SshAbcFileController.cs" />
     <Compile Include="SSHConn.cs" />
   </ItemGroup>
   <ItemGroup>
