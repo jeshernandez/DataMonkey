@@ -9,7 +9,7 @@
     <add key="ssh_pwd" value="pwd"/>
   </appSettings>
   <connectionStrings>
-    <add name="Oracle" connectionString="DATA SOURCE=10.0.1.1:1521/XE;PASSWORD=pwd;USER ID=user" />
+    <add name="Oracle" connectionString="DATA SOURCE=1.0.1.1:1521/XE;PASSWORD=pwd;USER ID=user" />
   </connectionStrings>
   <DatabaseFactoryConfiguration Name="DataMonkey.OracleDatabase" ConnectionStringName="Oracle"/>
   <startup>
